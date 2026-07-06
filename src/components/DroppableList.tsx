@@ -5,6 +5,9 @@ import {
 } from "@dnd-kit/sortable";
 import SortableItem from "./SortableItem";
 import type { Task } from "../types/task";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface DroppableListProps {
   id: string;
@@ -27,23 +30,15 @@ export default function DroppableList({
 
   return (
     <div
-      style={{
-        flex: 1,
-        padding: "10px",
-        borderRadius: "8px",
-        backgroundColor: isOver ? "#e8f5e9" : "transparent",
-        transition: "background-color 0.2s ease",
-      }}
+      className={cn(
+        "rounded-lg p-3 transition-colors",
+        isOver && "bg-accent"
+      )}
     >
-      <h3>{title}</h3>
-      <div style={{ marginBottom: "10px" }}>
-        <input
-          type="text"
-          placeholder="Enter task"
-          ref={inputRef}
-          style={{ marginRight: "5px" }}
-        />
-        <button onClick={onAddTask}>Add</button>
+      <h3 className="mb-3 text-sm font-medium">{title}</h3>
+      <div className="mb-3 flex gap-2">
+        <Input type="text" placeholder="Enter task" ref={inputRef} />
+        <Button onClick={onAddTask}>Add</Button>
       </div>
       <SortableContext
         items={tasks.map((task) => task.id)}
@@ -51,26 +46,13 @@ export default function DroppableList({
       >
         <ul
           ref={setNodeRef}
-          style={{
-            listStyle: "none",
-            padding: "15px",
-            minHeight: "300px",
-            backgroundColor: "#fafafa",
-            border: `3px solid ${isOver ? "#4CAF50" : "#ddd"}`,
-            borderRadius: "8px",
-            transition: "all 0.2s ease",
-            boxShadow: isOver ? "0 0 15px rgba(76, 175, 80, 0.3)" : "none",
-          }}
+          className={cn(
+            "min-h-[300px] list-none rounded-lg border-2 border-dashed bg-muted/30 p-4 transition-colors",
+            isOver && "border-primary bg-primary/5"
+          )}
         >
           {tasks.length === 0 && (
-            <li
-              style={{
-                color: "#999",
-                textAlign: "center",
-                padding: "40px 20px",
-                fontSize: "14px",
-              }}
-            >
+            <li className="py-10 text-center text-sm text-muted-foreground">
               {isOver ? "Drop here!" : "Drag items here"}
             </li>
           )}

@@ -4,12 +4,10 @@ import { lengthOfLastWord } from "../utils/lengthOfLastWord";
 import { majorityElement } from "../utils/majorityElement";
 import { removeDuplicateElements } from "../utils/removeDuplicateElements";
 import { rotateByK } from "../utils/rotateByK";
+import { Button } from "@/components/ui/button";
 
 export default function CreatePost() {
   const [createPostMutate, { error }] = usePostCreatePostMutation();
-  if (error) {
-    <p>error in post creation</p>;
-  }
   console.log(
     "duplicate",
     removeDuplicateElements([1, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5])
@@ -24,19 +22,22 @@ export default function CreatePost() {
   );
 
   return (
-    <button
-      onClick={() =>
-        createPostMutate({
-          variables: {
-            input: {
-              title: "Hello",
-              body: "World",
+    <div className="space-y-2">
+      <Button
+        onClick={() =>
+          createPostMutate({
+            variables: {
+              input: {
+                title: "Hello",
+                body: "World",
+              },
             },
-          },
-        })
-      }
-    >
-      post
-    </button>
+          })
+        }
+      >
+        Create post
+      </Button>
+      {error && <p className="text-sm text-destructive">Error in post creation</p>}
+    </div>
   );
 }

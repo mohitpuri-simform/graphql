@@ -9,6 +9,13 @@ import {
 import DroppableList from "./DroppableList";
 import useDragAndDrop from "../hooks/useDragAndDrop";
 import type { Task } from "../types/task";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function DragAndDrop() {
   const taskList1Ref = useRef<HTMLInputElement>(null!);
@@ -68,38 +75,36 @@ export default function DragAndDrop() {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div style={{ padding: "20px" }}>
-        <h2>Drag and Drop Between Two Lists</h2>
-        <div style={{ display: "flex", gap: "40px", marginTop: "20px" }}>
-          <DroppableList
-            id="list1"
-            title="List 1"
-            tasks={taskList1}
-            onAddTask={handleToTaskList1}
-            inputRef={taskList1Ref}
-          />
-          <DroppableList
-            id="list2"
-            title="List 2"
-            tasks={taskList2}
-            onAddTask={handleToTaskList2}
-            inputRef={taskList2Ref}
-          />
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Task board</CardTitle>
+          <CardDescription>
+            Drag and drop tasks between the two lists.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <DroppableList
+              id="list1"
+              title="List 1"
+              tasks={taskList1}
+              onAddTask={handleToTaskList1}
+              inputRef={taskList1Ref}
+            />
+            <DroppableList
+              id="list2"
+              title="List 2"
+              tasks={taskList2}
+              onAddTask={handleToTaskList2}
+              inputRef={taskList2Ref}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       <DragOverlay>
         {activeTask ? (
-          <div
-            style={{
-              padding: "10px",
-              backgroundColor: "#fff",
-              border: "2px solid #4CAF50",
-              borderRadius: "4px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-              cursor: "grabbing",
-            }}
-          >
+          <div className="cursor-grabbing rounded-md border bg-card px-4 py-3 text-sm shadow-lg">
             {activeTask.content}
           </div>
         ) : null}
